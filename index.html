@@ -17,17 +17,25 @@
     <!-- <script src="./js/OrbitControls.js"></script> -->
 <script type="module">
 
+    import { Color } from './modules/Color.js'
+    
+    const color = new Color();
+    var randomColor = color.getRandomColor();
+    var dynamicColor = 0;
+
     const domElement = document.querySelectorAll(".threejs")[0];
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x42f551);
+    scene.background = new THREE.Color(randomColor.R, randomColor.G, randomColor.B);
     const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
     const renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
-    const light = new THREE.PointLight( 0x42f551, 1, 100 );
-    light.position.set( 0, 0, 0 );
+    // const light = new THREE.PointLight( 0x42f551, 1, 100 );
+    // light.position.set( 0, 0, 0 );
+
+    const light = new THREE.AmbientLight( 0xffffff ); // soft white light
     scene.add( light );
 
     // load a texture, set wrap mode to repeat
@@ -40,7 +48,6 @@
 
     camera.position.z = 20;
 
-
     //Create an render loop to allow animation
     var render = function () {
         requestAnimationFrame( render );
@@ -48,6 +55,9 @@
         cube.rotation.x += 0.005;
         cube.rotation.y += 0.005;
         cube.rotation.z += 0.005;
+        
+        var randomColor = color.getRandomColor();
+        scene.background = new THREE.Color(randomColor.R, randomColor.G, randomColor.B);
 
         renderer.render(scene, camera);
     };
